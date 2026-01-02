@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     public: {
       betterstack: {
         sourceToken: '', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
-        endpoint: 'https://in.logs.betterstack.com',
+        endpoint: '', // Set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT
         dev: false,
       },
     },
@@ -60,7 +60,7 @@ All options can be configured via environment variables:
 
 ```bash
 NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN=your-token
-NUXT_PUBLIC_BETTERSTACK_ENDPOINT=your endpoint
+NUXT_PUBLIC_BETTERSTACK_ENDPOINT=your-endpoint
 NUXT_PUBLIC_BETTERSTACK_DEV=false
 ```
 
