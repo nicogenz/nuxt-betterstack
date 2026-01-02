@@ -41,22 +41,6 @@
     </div>
 
     <div style="margin: 1rem 0;">
-      <h2>Test Error Capturing</h2>
-      <button
-        style="margin: 0.25rem;"
-        @click="throwError"
-      >
-        Throw Error
-      </button>
-      <button
-        style="margin: 0.25rem;"
-        @click="throwAsyncError"
-      >
-        Throw Async Error
-      </button>
-    </div>
-
-    <div style="margin: 1rem 0;">
       <h2>Test Flush</h2>
       <button
         style="margin: 0.25rem;"
@@ -112,14 +96,6 @@ function logStructured() {
     action: 'button_click',
     timestamp: new Date().toISOString(),
   })
-}
-
-function throwError() {
-  throw new Error('This is a test error!')
-}
-
-async function throwAsyncError() {
-  await Promise.reject(new Error('This is an async error!'))
 }
 
 async function flushLogs() {
