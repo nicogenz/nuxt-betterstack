@@ -20,5 +20,5 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
-      - name: Playground prepare
-        run: npm run dev:prepare
+      - name: Build
+        run: npm run prepack
