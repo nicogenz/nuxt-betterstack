@@ -35,7 +35,6 @@ export interface BetterstackRuntimeConfig {
   /**
    * The BetterStack ingesting endpoint.
    * Can be set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT environment variable.
-   * @default 'https://in.logs.betterstack.com'
    */
   endpoint: string
 
