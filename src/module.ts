@@ -33,18 +33,20 @@ export default defineNuxtModule({
 
     const defaults: BetterstackRuntimeConfig = {
       sourceToken: '',
-      endpoint: 'https://in.logs.betterstack.com',
+      endpoint: '',
       dev: false,
     }
 
-    // Set defaults in runtimeConfig.public.betterstack
     const existingConfig = nuxt.options.runtimeConfig.public.betterstack || {}
     nuxt.options.runtimeConfig.public.betterstack = defu(existingConfig, defaults)
 
-    // Validate: warn if sourceToken is not set
     const config = nuxt.options.runtimeConfig.public.betterstack
     if (!config.sourceToken && !config.dev) {
       console.warn('[nuxt-betterstack] sourceToken is required (set via runtimeConfig.public.betterstack.sourceToken or NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN env var)')
+    }
+
+    if (!config.endpoint && !config.dev) {
+      console.warn('[nuxt-betterstack] endpoint is required (set via runtimeConfig.public.betterstack.endpoint or NUXT_PUBLIC_BETTERSTACK_ENDPOINT env var)')
     }
 
     // Add client plugin
