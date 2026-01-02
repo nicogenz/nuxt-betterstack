@@ -1,6 +1,6 @@
 {
   "name": "nuxt-betterstack",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Nuxt module for BetterStack logging - send logs from both SSR and client-side to BetterStack",
   "repository": {
     "type": "git",
@@ -39,12 +39,9 @@
     "dev": "npm run dev:prepare && nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run prepack && npm publish",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@logtail/browser": "^0.5.6",
@@ -58,13 +55,10 @@
     "@nuxt/eslint-config": "^1.12.1",
     "@nuxt/module-builder": "^1.0.2",
     "@nuxt/schema": "^4.2.2",
-    "@nuxt/test-utils": "^3.21.0",
     "@types/node": "latest",
-    "changelogen": "^0.6.2",
     "eslint": "^9.39.2",
     "nuxt": "^4.2.2",
     "typescript": "~5.9.3",
-    "vitest": "^3.2.4",
     "vue-tsc": "^3.2.1"
   }
 }
