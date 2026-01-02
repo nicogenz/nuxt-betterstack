@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: check
     permissions:
-      contents: read
       id-token: write
     steps:
       - uses: actions/checkout@v6
@@ -35,6 +34,4 @@ jobs:
       - name: Build
         run: npm run build
       - name: Publish to NPM
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
