@@ -35,11 +35,10 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build build",
+    "build": "nuxt-module-build prepare && nuxt-module-build build",
     "dev": "npm run dev:prepare && nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run prepack && npm publish",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

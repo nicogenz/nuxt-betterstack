@@ -21,4 +21,4 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Build
-        run: npm run prepack
+        run: npm run build
