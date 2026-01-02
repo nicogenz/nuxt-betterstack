@@ -23,11 +23,8 @@ export function useBetterstack(): BetterstackLogger {
   const betterstack = getBetterstack(config)
 
   const logMessage = (level: string, message: string, context?: Record<string, unknown>) => {
-    if (config.dev) {
-      // Dev mode: log to console only
-      const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'log'
-      console[consoleMethod](`[betterstack:${level}]`, message, context || '')
-    }
+    const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : level === 'debug' ? 'debug' : 'log'
+    console[consoleMethod](`[betterstack:${level}]`, message, context || '')
   }
 
   return {
