@@ -1,4 +1,4 @@
-import { Logtail } from '@logtail/browser'
+import { Browser as Logtail } from '@logtail/js'
 import { useRuntimeConfig } from '#app'
 import type { BetterstackRuntimeConfig, BetterstackLogger } from '../types'
 

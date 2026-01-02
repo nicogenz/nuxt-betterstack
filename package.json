@@ -1,6 +1,6 @@
 {
   "name": "nuxt-betterstack",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Nuxt module for BetterStack logging - send logs from both SSR and client-side to BetterStack",
   "repository": {
     "type": "git",
@@ -43,8 +43,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@logtail/browser": "^0.5.6",
-    "@logtail/node": "^0.5.6",
+    "@logtail/js": "^0.5.6",
     "@nuxt/kit": "^4.2.2",
     "defu": "^6.1.4"
   },
