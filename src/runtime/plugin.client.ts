@@ -24,7 +24,7 @@ function createLogger(config: BetterstackRuntimeConfig): BetterstackLogger {
   const logMessage = (level: string, message: string, context?: Record<string, unknown>) => {
     if (config.dev) {
       // Dev mode: log to console only
-      const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'log'
+      const consoleMethod = level === 'error' ? 'error' : level === 'warn' ? 'warn' : level === 'debug' ? 'debug' : 'log'
       console[consoleMethod](`[betterstack:${level}]`, message, context || '')
     }
   }
