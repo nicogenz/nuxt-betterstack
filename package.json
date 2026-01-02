@@ -4,7 +4,7 @@
   "description": "Nuxt module for BetterStack logging - send logs from both SSR and client-side to BetterStack",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/nuxt-betterstack"
+    "url": "https://github.com/nicogenz/nuxt-betterstack"
   },
   "license": "MIT",
   "type": "module",

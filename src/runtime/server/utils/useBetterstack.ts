@@ -23,7 +23,7 @@ function getLogtail(config: BetterstackRuntimeConfig): Logtail | null {
  * Use this in API routes and server middleware
  */
 export function useBetterstack(): BetterstackLogger {
-  const config = useRuntimeConfig().betterstack as BetterstackRuntimeConfig
+  const config = useRuntimeConfig().public.betterstack as BetterstackRuntimeConfig
   const logtail = getLogtail(config)
 
   const logMessage = (level: string, message: string, context?: Record<string, unknown>) => {

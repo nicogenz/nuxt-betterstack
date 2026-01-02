@@ -66,56 +66,11 @@ export default defineNuxtPlugin({
   name: 'betterstack-server',
   enforce: 'pre',
   setup(nuxtApp) {
-    const config = useRuntimeConfig().betterstack as BetterstackRuntimeConfig
+    const config = useRuntimeConfig().public.betterstack as BetterstackRuntimeConfig
     const logger = createLogger(config)
 
     // Provide logger instance
     nuxtApp.provide('betterstack', logger)
-
-    // Setup error capturing for SSR errors if enabled
-    if (config.captureErrors) {
-      nuxtApp.hook('vue:error', (error, instance, info) => {
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        const errorStack = error instanceof Error ? error.stack : undefined
-
-        if (config.dev) {
-          // Dev mode: log to console only
-          console.error('[betterstack:error] SSR Vue error', {
-            message: errorMessage,
-            stack: errorStack,
-            componentInfo: info,
-          })
-        }
-        else {
-          // Production: send to BetterStack
-          logger.error('SSR Vue error', {
-            message: errorMessage,
-            stack: errorStack,
-            componentInfo: info,
-          })
-        }
-      })
-
-      nuxtApp.hook('app:error', (error) => {
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        const errorStack = error instanceof Error ? error.stack : undefined
-
-        if (config.dev) {
-          // Dev mode: log to console only
-          console.error('[betterstack:error] Nuxt app error', {
-            message: errorMessage,
-            stack: errorStack,
-          })
-        }
-        else {
-          // Production: send to BetterStack
-          logger.error('Nuxt app error', {
-            message: errorMessage,
-            stack: errorStack,
-          })
-        }
-      })
-    }
 
     // Flush logs before server closes (only in production mode)
     if (!config.dev) {

@@ -12,7 +12,6 @@ A Nuxt module for integrating [BetterStack](https://betterstack.com) logging int
 - **Dual-environment logging** - Works seamlessly on both server and client
 - **Auto-import composable** - `useBetterstack()` available everywhere
 - **Server utilities** - Use in API routes and server middleware
-- **Automatic error capturing** - Catch unhandled Vue errors and promise rejections
 - **Dev mode** - Console-only logging during development to avoid flooding BetterStack
 - **Runtime config** - Configure via environment variables for different deployments
 - **Auto-flush** - Logs are automatically flushed on page unload and server shutdown
@@ -26,91 +25,65 @@ npm install nuxt-betterstack
 
 ## Setup
 
-Add the module to your `nuxt.config.ts`:
+Add the module to your `nuxt.config.ts` and configure via `runtimeConfig`:
 
 ```ts
 export default defineNuxtConfig({
   modules: ['nuxt-betterstack'],
-  
-  betterstack: {
-    sourceToken: process.env.BETTERSTACK_SOURCE_TOKEN,
-    // Optional configuration
-    endpoint: 'https://in.logs.betterstack.com',
-    captureErrors: true,
-    dev: false,
+
+  runtimeConfig: {
+    public: {
+      betterstack: {
+        sourceToken: '', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
+        endpoint: 'https://in.logs.betterstack.com',
+        dev: false,
+      },
+    },
   },
 })
 ```
 
 ## Configuration
 
-| Option | Type | Default | Runtime Configurable | Description |
-|--------|------|---------|---------------------|-------------|
-| `sourceToken` | `string` | `''` | Yes | Your BetterStack source token |
-| `endpoint` | `string` | `'https://in.logs.betterstack.com'` | Yes | The BetterStack ingesting endpoint |
-| `dev` | `boolean` | `false` | Yes | Dev mode: logs to console only, does NOT send to BetterStack |
-| `captureErrors` | `boolean` | `true` | No | Automatically capture unhandled errors |
+All configuration is done via `runtimeConfig.public.betterstack`:
 
-## Runtime Config
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `sourceToken` | `string` | `''` | Your BetterStack source token |
+| `endpoint` | `string` | `'https://in.logs.betterstack.com'` | The BetterStack ingesting endpoint |
+| `dev` | `boolean` | `false` | Dev mode: logs to console only, does NOT send to BetterStack |
 
-Some options can be configured via `runtimeConfig`, allowing you to override them using environment variables without rebuilding your application.
+### Environment Variables
 
-### Using Environment Variables
+All options can be configured via environment variables:
 
 ```bash
-# Set via environment variables
 NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN=your-token
 NUXT_PUBLIC_BETTERSTACK_ENDPOINT=https://in.logs.betterstack.com
 NUXT_PUBLIC_BETTERSTACK_DEV=false
 ```
-
-### Using runtimeConfig in nuxt.config.ts
-
-```ts
-export default defineNuxtConfig({
-  modules: ['nuxt-betterstack'],
-  
-  // Module options (take precedence over runtimeConfig)
-  betterstack: {
-    captureErrors: true,
-    // Leave runtime-configurable options unset to use runtimeConfig/env vars
-  },
-  
-  // Runtime config (can be overridden by env vars)
-  runtimeConfig: {
-    public: {
-      betterstack: {
-        sourceToken: '', // NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
-        endpoint: 'https://in.logs.betterstack.com',
-        dev: false,
-      }
-    }
-  }
-})
-```
-
-### Precedence
-
-1. **Module options** (highest priority) - Set in `betterstack: { ... }`
-2. **Runtime config** - Set in `runtimeConfig.public.betterstack`
-3. **Environment variables** - e.g., `NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN`
-4. **Defaults** (lowest priority)
 
 ## Dev Mode
 
 When `dev: true`, all logging behavior changes:
 
 - **Logs** are printed to console only, not sent to BetterStack
-- **Error capturing** logs errors to console only
 
 This prevents flooding your BetterStack logs during development while still giving you visibility in your terminal/browser console.
 
 ```ts
-// Recommended setup for development
-betterstack: {
-  sourceToken: process.env.BETTERSTACK_SOURCE_TOKEN,
-  dev: process.env.NODE_ENV === 'development',
-}
+export default defineNuxtConfig({
+  modules: ['nuxt-betterstack'],
+
+  runtimeConfig: {
+    public: {
+      betterstack: {
+        sourceToken: '', // NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
+        dev: process.env.NODE_ENV === 'development',
+      },
+    },
+  },
+})
 ```
 
 ## Usage
@@ -179,19 +152,6 @@ await logger.info('Important action')
 await logger.flush() // Ensure logs are sent before redirect
 navigateTo('/thank-you')
 ```
-
-## Error Capturing
-
-When `captureErrors: true` (default), the module automatically captures:
-
-**Client-side:**
-- Vue component errors
-- Unhandled promise rejections
-- Global JavaScript errors
-
-**Server-side:**
-- SSR Vue errors
-- Nuxt app errors
 
 ## Development
 
