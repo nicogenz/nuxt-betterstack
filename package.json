@@ -1,6 +1,6 @@
 {
   "name": "nuxt-betterstack",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nuxt module for BetterStack logging - send logs from both SSR and client-side to BetterStack",
   "repository": {
     "type": "git",
