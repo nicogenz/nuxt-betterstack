@@ -5,7 +5,8 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-A Nuxt module for integrating [BetterStack](https://betterstack.com) logging into your Nuxt application. Send logs from both server-side (SSR) and client-side to BetterStack with ease.
+A Nuxt module for integrating [BetterStack](https://betterstack.com) logging into your Nuxt application. Send logs from
+both server-side (SSR) and client-side to BetterStack with ease.
 
 ## Features
 
@@ -47,11 +48,11 @@ export default defineNuxtConfig({
 
 All configuration is done via `runtimeConfig.public.betterstack`:
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `sourceToken` | `string` | `''` | Your BetterStack source token |
-| `endpoint` | `string` | `'https://in.logs.betterstack.com'` | The BetterStack ingesting endpoint |
-| `dev` | `boolean` | `false` | Dev mode: logs to console only, does NOT send to BetterStack |
+| Option        | Type      | Default | Description                                                  |
+|---------------|-----------|---------|--------------------------------------------------------------|
+| `sourceToken` | `string`  | `''`    | Your BetterStack source token                                |
+| `endpoint`    | `string`  | `''`    | The BetterStack ingesting endpoint                           |
+| `dev`         | `boolean` | `false` | Dev mode: logs to console only, does NOT send to BetterStack |
 
 ### Environment Variables
 
@@ -59,7 +60,7 @@ All options can be configured via environment variables:
 
 ```bash
 NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN=your-token
-NUXT_PUBLIC_BETTERSTACK_ENDPOINT=https://in.logs.betterstack.com
+NUXT_PUBLIC_BETTERSTACK_ENDPOINT=your endpoint
 NUXT_PUBLIC_BETTERSTACK_DEV=false
 ```
 
@@ -69,7 +70,8 @@ When `dev: true`, all logging behavior changes:
 
 - **Logs** are printed to console only, not sent to BetterStack
 
-This prevents flooding your BetterStack logs during development while still giving you visibility in your terminal/browser console.
+This prevents flooding your BetterStack logs during development while still giving you visibility in your
+terminal/browser console.
 
 ```ts
 export default defineNuxtConfig({
@@ -91,24 +93,25 @@ export default defineNuxtConfig({
 ### In Vue Components
 
 ```vue
+
 <script setup>
-const logger = useBetterstack()
+  const logger = useBetterstack()
 
-function handleClick() {
-  logger.info('Button clicked', { 
-    userId: user.id,
-    action: 'purchase' 
-  })
-}
-
-async function handlePurchase() {
-  try {
-    await processPurchase()
-    logger.info('Purchase completed')
-  } catch (error) {
-    logger.error('Purchase failed', { error: error.message })
+  function handleClick () {
+    logger.info('Button clicked', {
+      userId: user.id,
+      action: 'purchase'
+    })
   }
-}
+
+  async function handlePurchase () {
+    try {
+      await processPurchase()
+      logger.info('Purchase completed')
+    } catch (error) {
+      logger.error('Purchase failed', { error: error.message })
+    }
+  }
 </script>
 ```
 
@@ -118,11 +121,11 @@ async function handlePurchase() {
 // server/api/users.ts
 export default defineEventHandler(async (event) => {
   const logger = useBetterstack()
-  
-  logger.info('Fetching users', { 
-    path: '/api/users' 
+
+  logger.info('Fetching users', {
+    path: '/api/users'
   })
-  
+
   const users = await getUsers()
   return users
 })
@@ -135,10 +138,10 @@ The logger provides four log levels:
 ```ts
 const logger = useBetterstack()
 
-logger.debug('Debug message', { context: 'optional' })
-logger.info('Info message', { context: 'optional' })
-logger.warn('Warning message', { context: 'optional' })
-logger.error('Error message', { context: 'optional' })
+logger.debug('Debug message', {context: 'optional'})
+logger.info('Info message', {context: 'optional'})
+logger.warn('Warning message', {context: 'optional'})
+logger.error('Error message', {context: 'optional'})
 ```
 
 ### Flushing Logs
@@ -157,7 +160,7 @@ navigateTo('/thank-you')
 
 <details>
   <summary>Local development</summary>
-  
+
   ```bash
   # Install dependencies
   npm install
@@ -173,13 +176,6 @@ navigateTo('/thank-you')
   
   # Run ESLint
   npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
   ```
 
 </details>
@@ -189,14 +185,19 @@ navigateTo('/thank-you')
 MIT
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-betterstack/latest.svg?style=flat&colorA=020420&colorB=00DC82
+
 [npm-version-href]: https://npmjs.com/package/nuxt-betterstack
 
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-betterstack.svg?style=flat&colorA=020420&colorB=00DC82
+
 [npm-downloads-href]: https://npm.chart.dev/nuxt-betterstack
 
 [license-src]: https://img.shields.io/npm/l/nuxt-betterstack.svg?style=flat&colorA=020420&colorB=00DC82
+
 [license-href]: https://npmjs.com/package/nuxt-betterstack
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt
+
 [nuxt-href]: https://nuxt.com
