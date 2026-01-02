@@ -2,20 +2,14 @@ import { Logtail } from '@logtail/node'
 import { useRuntimeConfig } from '#imports'
 import type { BetterstackRuntimeConfig, BetterstackLogger } from '../../types'
 
-let betterstackInstance: Logtail | null = null
-
 function getBetterstack(config: BetterstackRuntimeConfig): Logtail | null {
   if (!config.sourceToken || config.dev) {
     return null
   }
 
-  if (!betterstackInstance) {
-    betterstackInstance = new Logtail(config.sourceToken, {
-      endpoint: config.endpoint,
-    })
-  }
-
-  return betterstackInstance
+  return new Logtail(config.sourceToken, {
+    endpoint: config.endpoint,
+  })
 }
 
 export function useBetterstack(): BetterstackLogger {

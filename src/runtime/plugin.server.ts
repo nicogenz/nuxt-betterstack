@@ -5,11 +5,9 @@ import type { BetterstackRuntimeConfig } from './types'
 export default defineNuxtPlugin({
   name: 'betterstack-server',
   enforce: 'pre',
-  setup(nuxtApp) {
+  setup() {
     const config = useRuntimeConfig().public.betterstack as BetterstackRuntimeConfig
     const logger = useBetterstack()
-
-    nuxtApp.provide('betterstack', logger)
 
     // Flush logs before server closes (only in production mode)
     if (!config.dev) {
