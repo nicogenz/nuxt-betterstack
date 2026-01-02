@@ -85,7 +85,8 @@ export default defineNuxtPlugin({
             stack: errorStack,
             componentInfo: info,
           })
-        } else {
+        }
+        else {
           // Production: send to BetterStack
           logger.error('SSR Vue error', {
             message: errorMessage,
@@ -105,7 +106,8 @@ export default defineNuxtPlugin({
             message: errorMessage,
             stack: errorStack,
           })
-        } else {
+        }
+        else {
           // Production: send to BetterStack
           logger.error('Nuxt app error', {
             message: errorMessage,

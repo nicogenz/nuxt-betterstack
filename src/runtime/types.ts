@@ -1,7 +1,7 @@
 export interface BetterstackModuleOptions {
   /**
    * Your BetterStack source token.
-   * 
+   *
    * **Runtime configurable**: Can be set via `runtimeConfig.public.betterstack.sourceToken`
    * or `NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN` environment variable.
    */
@@ -9,19 +9,19 @@ export interface BetterstackModuleOptions {
 
   /**
    * The BetterStack ingesting endpoint.
-   * 
+   *
    * **Runtime configurable**: Can be set via `runtimeConfig.public.betterstack.endpoint`
    * or `NUXT_PUBLIC_BETTERSTACK_ENDPOINT` environment variable.
-   * 
+   *
    * @default 'https://in.logs.betterstack.com'
    */
   endpoint?: string
 
   /**
    * Whether to automatically capture unhandled errors.
-   * 
+   *
    * **Not runtime configurable**: Must be set in module options.
-   * 
+   *
    * @default true
    */
   captureErrors?: boolean
@@ -29,10 +29,10 @@ export interface BetterstackModuleOptions {
   /**
    * Development mode - when true, logs are printed to console only and NOT sent to BetterStack.
    * This prevents flooding your BetterStack logs during development.
-   * 
+   *
    * **Runtime configurable**: Can be set via `runtimeConfig.public.betterstack.dev`
    * or `NUXT_PUBLIC_BETTERSTACK_DEV` environment variable.
-   * 
+   *
    * @default false
    */
   dev?: boolean

@@ -1,7 +1,7 @@
 // useBetterstack is auto-imported by the module
 export default defineEventHandler(async () => {
   const logger = useBetterstack()
-  
+
   // Log from the server side
   await logger.info('API route called', {
     path: '/api/test',

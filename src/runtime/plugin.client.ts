@@ -86,7 +86,8 @@ export default defineNuxtPlugin({
             componentInfo: info,
             url: window.location.href,
           })
-        } else {
+        }
+        else {
           // Production: send to BetterStack
           logger.error('Unhandled Vue error', {
             message: errorMessage,
@@ -112,7 +113,8 @@ export default defineNuxtPlugin({
             stack: errorStack,
             url: window.location.href,
           })
-        } else {
+        }
+        else {
           // Production: send to BetterStack
           logger.error('Unhandled promise rejection', {
             message: errorMessage,
@@ -133,7 +135,8 @@ export default defineNuxtPlugin({
             colno: event.colno,
             url: window.location.href,
           })
-        } else {
+        }
+        else {
           // Production: send to BetterStack
           logger.error('Unhandled error', {
             message: event.message,
