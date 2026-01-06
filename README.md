@@ -15,7 +15,6 @@ both server-side (SSR) and client-side to BetterStack with ease.
 - **Server utilities** - Use in API routes and server middleware
 - **Flexible configuration** - Use public config for client+server or private config for server-only
 - **Runtime config** - Configure via environment variables for different deployments
-- **Auto-flush** - Logs are automatically flushed on page unload and server shutdown
 - **TypeScript support** - Fully typed API
 
 ## Installation
