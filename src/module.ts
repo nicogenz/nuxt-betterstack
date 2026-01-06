@@ -1,65 +1,20 @@
 import {
   defineNuxtModule,
-  addPlugin,
-  addImports,
-  createResolver,
+  createResolver, addImports,
 } from '@nuxt/kit'
-import { defu } from 'defu'
-import type { BetterstackLogger, BetterstackRuntimeConfig } from './runtime/types'
 
-export type { BetterstackLogger, BetterstackRuntimeConfig } from './runtime/types'
-
-declare module '#app' {
-  interface NuxtApp {
-    $betterstack: BetterstackLogger
-  }
-}
-
-declare module 'vue' {
-  interface ComponentCustomProperties {
-    $betterstack: BetterstackLogger
-  }
-}
+export type { BetterstackLogger, BetterstackPublicRuntimeConfig, BetterstackRuntimeConfig } from './runtime/types'
 
 export default defineNuxtModule({
   meta: {
     name: 'nuxt-betterstack',
+    configKey: 'betterstack',
     compatibility: {
       nuxt: '>=3.0.0',
     },
   },
   setup(_options, nuxt) {
     const resolver = createResolver(import.meta.url)
-
-    const defaults: BetterstackRuntimeConfig = {
-      sourceToken: '',
-      endpoint: '',
-      dev: false,
-    }
-
-    const existingConfig = nuxt.options.runtimeConfig.public.betterstack || {}
-    nuxt.options.runtimeConfig.public.betterstack = defu(existingConfig, defaults)
-
-    const config = nuxt.options.runtimeConfig.public.betterstack
-    if (!config.sourceToken && !config.dev) {
-      console.warn('[nuxt-betterstack] sourceToken is required (set via runtimeConfig.public.betterstack.sourceToken or NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN env var)')
-    }
-
-    if (!config.endpoint && !config.dev) {
-      console.warn('[nuxt-betterstack] endpoint is required (set via runtimeConfig.public.betterstack.endpoint or NUXT_PUBLIC_BETTERSTACK_ENDPOINT env var)')
-    }
-
-    // Add client plugin
-    addPlugin({
-      src: resolver.resolve('./runtime/plugin.client'),
-      mode: 'client',
-    })
-
-    // Add server plugin
-    addPlugin({
-      src: resolver.resolve('./runtime/plugin.server'),
-      mode: 'server',
-    })
 
     // Add composable auto-import
     addImports({

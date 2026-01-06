@@ -13,7 +13,7 @@ both server-side (SSR) and client-side to BetterStack with ease.
 - **Dual-environment logging** - Works seamlessly on both server and client
 - **Auto-import composable** - `useBetterstack()` available everywhere
 - **Server utilities** - Use in API routes and server middleware
-- **Dev mode** - Console-only logging during development to avoid flooding BetterStack
+- **Flexible configuration** - Use public config for client+server or private config for server-only
 - **Runtime config** - Configure via environment variables for different deployments
 - **Auto-flush** - Logs are automatically flushed on page unload and server shutdown
 - **TypeScript support** - Fully typed API
@@ -30,48 +30,17 @@ Add the module to your `nuxt.config.ts` and configure via `runtimeConfig`:
 
 ```ts
 export default defineNuxtConfig({
-  modules: ['nuxt-betterstack'],
-
-  runtimeConfig: {
-    public: {
-      betterstack: {
-        sourceToken: '', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
-        endpoint: '', // Set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT
-        dev: false,
-      },
-    },
-  },
+  modules: ['nuxt-betterstack']
 })
 ```
 
 ## Configuration
 
-All configuration is done via `runtimeConfig.public.betterstack`:
+The module supports two configuration approaches via `runtimeConfig`:
 
-| Option        | Type      | Default | Description                                                  |
-|---------------|-----------|---------|--------------------------------------------------------------|
-| `sourceToken` | `string`  | `''`    | Your BetterStack source token                                |
-| `endpoint`    | `string`  | `''`    | The BetterStack ingesting endpoint                           |
-| `dev`         | `boolean` | `false` | Dev mode: logs to console only, does NOT send to BetterStack |
+### Public Configuration (Client + Server)
 
-### Environment Variables
-
-All options can be configured via environment variables:
-
-```bash
-NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN=your-token
-NUXT_PUBLIC_BETTERSTACK_ENDPOINT=your-endpoint
-NUXT_PUBLIC_BETTERSTACK_DEV=false
-```
-
-## Dev Mode
-
-When `dev: true`, all logging behavior changes:
-
-- **Logs** are printed to console only, not sent to BetterStack
-
-This prevents flooding your BetterStack logs during development while still giving you visibility in your
-terminal/browser console.
+Use `runtimeConfig.public.betterstack` when you need logging on both client and server:
 
 ```ts
 export default defineNuxtConfig({
@@ -80,13 +49,56 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       betterstack: {
-        sourceToken: '', // NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
-        dev: process.env.NODE_ENV === 'development',
+        sourceToken: '', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
+        endpoint: '', // Set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT
       },
     },
   },
 })
 ```
+
+### Private Configuration (Server Only)
+
+Use `runtimeConfig.betterstack` for server-side only logging. This keeps your token private and out of the client bundle:
+
+```ts
+export default defineNuxtConfig({
+  modules: ['nuxt-betterstack'],
+
+  runtimeConfig: {
+    betterstack: {
+      sourceToken: '', // Set via NUXT_BETTERSTACK_SOURCE_TOKEN
+      endpoint: '', // Set via NUXT_BETTERSTACK_ENDPOINT
+    },
+  },
+})
+```
+
+### Options
+
+| Option        | Type     | Default | Description                        |
+|---------------|----------|---------|------------------------------------|
+| `sourceToken` | `string` | `''`    | Your BetterStack source token      |
+| `endpoint`    | `string` | `''`    | The BetterStack ingesting endpoint |
+
+### Environment Variables
+
+| Config Type | Variable                              |
+|-------------|---------------------------------------|
+| Public      | `NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN` |
+| Public      | `NUXT_PUBLIC_BETTERSTACK_ENDPOINT`     |
+| Private     | `NUXT_BETTERSTACK_SOURCE_TOKEN`        |
+| Private     | `NUXT_BETTERSTACK_ENDPOINT`            |
+
+### Security Considerations
+
+- **Use private config** if you only need server-side logging (API routes, server middleware). This prevents your BetterStack token from being exposed to the client.
+- **Use public config** if you need client-side logging (Vue components, browser events). Be aware that the token will be visible in the client bundle.
+- You can use both configurations together: private config for sensitive server logs and public config for general client-side telemetry (using separate BetterStack sources).
+
+## Graceful Fallback
+
+When `sourceToken` or `endpoint` is not configured, logs are simply not sent to BetterStack. This allows you to safely run your application locally or in development without flooding your BetterStack logs.
 
 ## Usage
 
@@ -145,15 +157,13 @@ logger.error('Error message', {context: 'optional'})
 ```
 
 ### Flushing Logs
-
-Logs are automatically flushed before page unload (client) and server shutdown. You can also manually flush:
+You can manually flush logs to ensure they are sent to BetterStack:
 
 ```ts
 const logger = useBetterstack()
 
 await logger.info('Important action')
 await logger.flush() // Ensure logs are sent before redirect
-navigateTo('/thank-you')
 ```
 
 ## Development

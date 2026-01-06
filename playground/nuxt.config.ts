@@ -8,7 +8,6 @@ export default defineNuxtConfig({
       betterstack: {
         sourceToken: '', // NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
         endpoint: '', // NUXT_PUBLIC_BETTERSTACK_ENDPOINT
-        dev: true, // NUXT_PUBLIC_BETTERSTACK_DEV - Dev mode: logs to console only
       },
     },
   },

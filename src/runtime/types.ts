@@ -28,26 +28,36 @@ export interface BetterstackLogger {
 export interface BetterstackRuntimeConfig {
   /**
    * Your BetterStack source token.
+   * Can be set via NUXT_BETTERSTACK_SOURCE_TOKEN environment variable.
+   */
+  sourceToken?: string
+
+  /**
+   * The BetterStack ingesting endpoint.
+   * Can be set via NUXT_BETTERSTACK_ENDPOINT environment variable.
+   */
+  endpoint?: string
+}
+
+export interface BetterstackPublicRuntimeConfig {
+  /**
+   * Your BetterStack source token.
    * Can be set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN environment variable.
    */
-  sourceToken: string
+  sourceToken?: string
 
   /**
    * The BetterStack ingesting endpoint.
    * Can be set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT environment variable.
    */
-  endpoint: string
-
-  /**
-   * Development mode - when true, logs are printed to console only and NOT sent to BetterStack.
-   * Can be set via NUXT_PUBLIC_BETTERSTACK_DEV environment variable.
-   * @default false
-   */
-  dev: boolean
+  endpoint?: string
 }
-
 declare module 'nuxt/schema' {
-  interface PublicRuntimeConfig {
+  interface RuntimeConfig {
     betterstack: Partial<BetterstackRuntimeConfig>
+  }
+
+  interface PublicRuntimeConfig {
+    betterstack: Partial<BetterstackPublicRuntimeConfig>
   }
 }
