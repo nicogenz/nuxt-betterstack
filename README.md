@@ -49,8 +49,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       betterstack: {
-        sourceToken: '', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
-        endpoint: '', // Set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT
+        sourceToken: 'your-token', // Set via NUXT_PUBLIC_BETTERSTACK_SOURCE_TOKEN
+        endpoint: 'https://your-endpoint', // Set via NUXT_PUBLIC_BETTERSTACK_ENDPOINT
       },
     },
   },
@@ -67,8 +67,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     betterstack: {
-      sourceToken: '', // Set via NUXT_BETTERSTACK_SOURCE_TOKEN
-      endpoint: '', // Set via NUXT_BETTERSTACK_ENDPOINT
+      sourceToken: 'your-token', // Set via NUXT_BETTERSTACK_SOURCE_TOKEN
+      endpoint: 'https://your-endpoint', // Set via NUXT_BETTERSTACK_ENDPOINT
     },
   },
 })
@@ -76,10 +76,10 @@ export default defineNuxtConfig({
 
 ### Options
 
-| Option        | Type     | Default | Description                        |
-|---------------|----------|---------|------------------------------------|
-| `sourceToken` | `string` | `''`    | Your BetterStack source token      |
-| `endpoint`    | `string` | `''`    | The BetterStack ingesting endpoint |
+| Option        | Type     | Description                        |
+|---------------|----------|------------------------------------|
+| `sourceToken` | `string` | Your BetterStack source token      |
+| `endpoint`    | `string` | The BetterStack ingesting endpoint |
 
 ### Environment Variables
 
