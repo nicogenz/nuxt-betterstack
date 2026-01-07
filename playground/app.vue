@@ -66,8 +66,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const logger = useBetterstack()
 const apiResponse = ref('')
 

@@ -1,4 +1,4 @@
-import { Node as Logtail } from '@logtail/js'
+import { Logtail } from '@logtail/node'
 import { useRuntimeConfig } from '#imports'
 import type { BetterstackLogger, BetterstackRuntimeConfig } from '../../types'
 import defu from 'defu'
