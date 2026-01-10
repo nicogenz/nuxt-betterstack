@@ -101,15 +101,19 @@ When `sourceToken` or `endpoint` is not configured, logs are simply not sent to 
 
 ## Usage
 
-### In Vue Components
+### Logger
+
+The module provides a flexible logging API that works on both server and client.
+
+#### In Vue Components
 
 ```vue
 
 <script setup>
-  const logger = useBetterstack()
+  const betterstack = useBetterstack()
 
   function handleClick () {
-    logger.info('Button clicked', {
+    betterstack.logger.info('Button clicked', {
       userId: user.id,
       action: 'purchase'
     })
@@ -117,52 +121,70 @@ When `sourceToken` or `endpoint` is not configured, logs are simply not sent to 
 
   async function handlePurchase () {
     try {
-      await processPurchase()
-      logger.info('Purchase completed')
+      // do something
+      betterstack.logger.info('Purchase completed')
     } catch (error) {
-      logger.error('Purchase failed', { error: error.message })
+      betterstack.logger.error('Purchase failed', { error: error.message })
     }
   }
 </script>
 ```
 
-### In API Routes
+#### In API Routes
 
 ```ts
-// server/api/users.ts
 export default defineEventHandler(async (event) => {
-  const logger = useBetterstack()
+  const betterstack = useBetterstack()
 
-  logger.info('Fetching users', {
+  betterstack.logger.info('Fetching users', {
     path: '/api/users'
   })
-
-  const users = await getUsers()
-  return users
+  return null
 })
 ```
 
-### Log Levels
+#### Log Levels
 
 The logger provides four log levels:
 
 ```ts
-const logger = useBetterstack()
+const betterstack = useBetterstack()
 
-logger.debug('Debug message', {context: 'optional'})
-logger.info('Info message', {context: 'optional'})
-logger.warn('Warning message', {context: 'optional'})
-logger.error('Error message', {context: 'optional'})
+betterstack.logger.debug('Debug message', {context: 'optional'})
+betterstack.logger.info('Info message', {context: 'optional'})
+betterstack.logger.warn('Warning message', {context: 'optional'})
+betterstack.logger.error('Error message', {context: 'optional'})
 ```
 
-### Flushing Logs
+#### Flushing Logs
 You can manually flush logs to ensure they are sent to BetterStack:
 
 ```ts
-const logger = useBetterstack()
+const betterstack = useBetterstack()
 
-await logger.info('Important action')
-await logger.flush() // Ensure logs are sent before redirect
+await betterstack.logger.info('Important action')
+await betterstack.logger.flush() // Ensure logs are sent before redirect
+```
+
+### Heartbeats
+
+The module supports [BetterStack Heartbeat monitoring](https://betterstack.com/docs/uptime/api/heartbeats) to monitor your scheduled tasks and cron jobs.
+
+> **Setup**: Create a Heartbeat monitor in your BetterStack dashboard and copy the heartbeat ID.
+
+#### Basic Usage
+
+```ts
+const betterstack = useBetterstack()
+
+// Send success signal
+await betterstack.heartbeat.success('your-heartbeat-id')
+
+// Send failure signal
+await betterstack.heartbeat.failure('your-heartbeat-id')
+
+// Send failure with custom exit code
+await betterstack.heartbeat.failure('your-heartbeat-id', '500')
 ```
 
 ## Development

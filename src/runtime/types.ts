@@ -1,3 +1,23 @@
+export interface Betterstack {
+  logger: BetterstackLogger
+  heartbeat: BetterstackHeartbeat
+}
+
+export interface BetterstackHeartbeat {
+  /**
+   * Send a success heartbeat signal to BetterStack
+   * @param id - The heartbeat ID from your BetterStack monitor
+   */
+  success: (id: string) => Promise<void>
+
+  /**
+   * Send a failure heartbeat signal to BetterStack
+   * @param id - The heartbeat ID from your BetterStack monitor
+   * @param exitCode - Optional exit code
+   */
+  failure: (id: string, exitCode?: string) => Promise<void>
+}
+
 export interface BetterstackLogger {
   /**
    * Log a debug message

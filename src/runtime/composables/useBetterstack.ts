@@ -1,6 +1,6 @@
 import { Logtail } from '@logtail/browser'
 import { useRuntimeConfig } from '#app'
-import type { BetterstackPublicRuntimeConfig, BetterstackLogger } from '../types'
+import type { BetterstackPublicRuntimeConfig, Betterstack } from '../types'
 
 function getBetterstack(config?: BetterstackPublicRuntimeConfig): Logtail | null {
   if (!config?.sourceToken || !config?.endpoint) {
@@ -13,35 +13,45 @@ function getBetterstack(config?: BetterstackPublicRuntimeConfig): Logtail | null
   })
 }
 
-export function useBetterstack(): BetterstackLogger {
+export function useBetterstack(): Betterstack {
   const config = useRuntimeConfig().public.betterstack
   const betterstack = getBetterstack(config)
 
   return {
-    async debug(message: string, context?: Record<string, unknown>) {
-      if (betterstack) {
-        await betterstack.debug(message, context)
-      }
+    logger: {
+      async debug(message: string, context?: Record<string, unknown>) {
+        if (betterstack) {
+          await betterstack.debug(message, context)
+        }
+      },
+      async info(message: string, context?: Record<string, unknown>) {
+        if (betterstack) {
+          await betterstack.info(message, context)
+        }
+      },
+      async warn(message: string, context?: Record<string, unknown>) {
+        if (betterstack) {
+          await betterstack.warn(message, context)
+        }
+      },
+      async error(message: string, context?: Record<string, unknown>) {
+        if (betterstack) {
+          await betterstack.error(message, context)
+        }
+      },
+      async flush() {
+        if (betterstack) {
+          await betterstack.flush()
+        }
+      },
     },
-    async info(message: string, context?: Record<string, unknown>) {
-      if (betterstack) {
-        await betterstack.info(message, context)
-      }
-    },
-    async warn(message: string, context?: Record<string, unknown>) {
-      if (betterstack) {
-        await betterstack.warn(message, context)
-      }
-    },
-    async error(message: string, context?: Record<string, unknown>) {
-      if (betterstack) {
-        await betterstack.error(message, context)
-      }
-    },
-    async flush() {
-      if (betterstack) {
-        await betterstack.flush()
-      }
+    heartbeat: {
+      success: async (id: string) => {
+        await $fetch(`https://uptime.betterstack.com/api/v1/heartbeat/${id}`)
+      },
+      failure: async (id: string, exitCode?: string) => {
+        await $fetch(`https://uptime.betterstack.com/api/v1/heartbeat/${id}/${exitCode ?? 'fail'}`)
+      },
     },
   }
 }
