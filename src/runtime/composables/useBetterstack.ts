@@ -2,15 +2,28 @@ import { Logtail } from '@logtail/browser'
 import { useRuntimeConfig } from '#app'
 import type { BetterstackPublicRuntimeConfig, Betterstack } from '../types'
 
+const clients = new Map<string, Logtail | null>()
+
 function getBetterstack(config?: BetterstackPublicRuntimeConfig): Logtail | null {
+  const key = `${config?.sourceToken ?? ''}|${config?.endpoint ?? ''}`
+
+  const cached = clients.get(key)
+  if (cached !== undefined) {
+    return cached
+  }
+
   if (!config?.sourceToken || !config?.endpoint) {
     console.debug('Betterstack is not configured properly. Please provide both sourceToken and endpoint. Logs will not be sent.')
+    clients.set(key, null)
     return null
   }
 
-  return new Logtail(config.sourceToken, {
+  const client = new Logtail(config.sourceToken, {
     endpoint: config.endpoint,
   })
+  clients.set(key, client)
+
+  return client
 }
 
 export function useBetterstack(): Betterstack {
