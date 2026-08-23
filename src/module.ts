@@ -1,6 +1,6 @@
 import {
   defineNuxtModule,
-  createResolver, addImports,
+  createResolver, addImports, addServerPlugin,
 } from '@nuxt/kit'
 
 export type { BetterstackLogger, BetterstackPublicRuntimeConfig, BetterstackRuntimeConfig } from './runtime/types'
@@ -34,5 +34,8 @@ export default defineNuxtModule({
         from: resolver.resolve('./runtime/server/utils/useBetterstack'),
       })
     })
+
+    // Flush batched logs when the server shuts down
+    addServerPlugin(resolver.resolve('./runtime/server/plugins/flushBetterstack'))
   },
 })
